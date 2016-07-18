@@ -33,7 +33,7 @@ static OtherLoginUserInfo *shareInstance = nil;
 
 #pragma mark - 微信
 //调起微信
-- (void)tuneUpWXLogin:(WeiXinSuccess)success
+- (void)tuneUpWXLogin:(WeiXinSuccess)wxUserInfo
 {
     NSInteger random = (arc4random() % (int)pow(10, 10)) + (int)pow(10, 10);
     SendAuthReq* req = [[SendAuthReq alloc ] init ];
@@ -42,7 +42,7 @@ static OtherLoginUserInfo *shareInstance = nil;
     //第三方向微信终端发送一个SendAuthReq消息结构
     [WXApi sendReq:req];
     
-    [OtherLoginUserInfo shareInstance].success = success;
+    [OtherLoginUserInfo shareInstance].wxUserInfo = wxUserInfo;
 }
 
 - (void)getWXloginUserInfo:(SendAuthResp *)sendAuth
@@ -62,8 +62,8 @@ static OtherLoginUserInfo *shareInstance = nil;
                     NSMutableDictionary *userInfoContent = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                     [userInfoContent setValue:tokenContent forKey:@"tokenContent"];
 
-                    if ([OtherLoginUserInfo shareInstance].success != nil) {
-                        [OtherLoginUserInfo shareInstance].success(userInfoContent);
+                    if ([OtherLoginUserInfo shareInstance].wxUserInfo != nil) {
+                        [OtherLoginUserInfo shareInstance].wxUserInfo(userInfoContent);
                     }
                 });
                 
@@ -80,7 +80,7 @@ static OtherLoginUserInfo *shareInstance = nil;
 
 #pragma mark - qq
 //调起qq
-- (void)tuneUpQQLogin:(void(^)(id userInfo))qqUserInfo
+- (void)tuneUpQQLogin:(QQUserInfo)qqUserInfo
 {
     qqUserInfos = [NSMutableDictionary dictionary];
     //3,初始化TencentOAuth 对象 appid来自应用宝创建的应用， deletegate设置为self  一定记得实现代理方法

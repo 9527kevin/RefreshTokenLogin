@@ -23,7 +23,7 @@ typedef void(^WBUserInfo)(id userInfo);
  *
  *  @param success 调起以后获取微信用户信息
  */
-- (void)tuneUpWXLogin:(WeiXinSuccess)success;
+- (void)tuneUpWXLogin:(WeiXinSuccess)wxUserInfo;
 
 /**
  *  获取微信用户信息
@@ -55,7 +55,7 @@ typedef void(^WBUserInfo)(id userInfo);
 - (void)getIdCodeWithRefreshToken:(NSString *)lastLoginThird;
 
 
-@property (nonatomic, copy) WeiXinSuccess success;
+@property (nonatomic, copy) WeiXinSuccess wxUserInfo;
 @property (nonatomic, copy) QQUserInfo  qqUserInfo;
 @property (nonatomic, copy) WBUserInfo  wbUserInfo;
 
